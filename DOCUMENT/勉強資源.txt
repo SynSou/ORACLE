@@ -1,0 +1,4 @@
+http://www.istudy.ne.jp/training/serial/plsql/index.html
+http://www.istudy.ne.jp/training/serial/sql/backnum.html
+http://www.t3.rim.or.jp/~buchi/plsql/
+http://homepage2.nifty.com/sak/w_sak3/doc/sysbrd/sak3doc.htm

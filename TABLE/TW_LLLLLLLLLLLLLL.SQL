@@ -1,0 +1,14 @@
+CREATE TABLE TW_LLLLLLLLLLLLLL
+(
+    UPD_SEQ                        NUMBER(8,0) NOT NULL,
+    USER_CD                        VARCHAR2(8) NOT NULL,
+    HOUSE_CD                       VARCHAR2(8) NOT NULL,
+    LOC_A                          VARCHAR2(56) NOT NULL,
+    LOC_H                          VARCHAR2(56) NOT NULL,
+    CONSTRAINT HELLOWORLD PRIMARY KEY (UPD_SEQ) USING INDEX
+)
+/
+CREATE INDEX PK123
+ON TW_LLLLLLLLLLLLLL
+(UPD_SEQ)
+/
