@@ -1,0 +1,8 @@
+                //appendWhere.AppendFormat(" AND NP.{0} IN (:{0}) ", table.NK_DEN_NOColumn.ColumnName);
+                appendWhere.AppendFormat(@" AND NP.{0} IN (
+SELECT REGEXP_SUBSTR(:{0}, '[^,]+', 1, LEVEL) as NKNO 
+FROM DUAL CONNECT BY 
+LEVEL <= LENGTH(REGEXP_REPLACE(:{0}, '[^,]*')) + 1
+) "
+                    , table.NK_DEN_NOColumn.ColumnName);
+                parameters.Add(":" + table.NK_DEN_NOColumn.ColumnName, NK_DEN_NO_LST);

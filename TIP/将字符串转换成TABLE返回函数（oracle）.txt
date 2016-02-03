@@ -1,0 +1,44 @@
+CREATE OR REPLACE FUNCTION str2list (
+ p_string IN VARCHAR2,
+ p_string2 IN VARCHAR2 DEFAULT NULL,
+ p_sep IN VARCHAR2 DEFAULT ','
+)
+ RETURN tabletype
+AS
+/******************************************************************************
+AUTHOR:
+ PURPOSE: 用于将一字符串转换成一个table
+ NOTES: 可以通过传入的顺序进行排序 调用举例：select a.* from table (str2List(replace('''a'',''b'',''b'',7782,7788,7369,7499,7521,7566,7654,7698','''','')) ) a
+
+ TABLE REFERENCES:
+ VIEW REFERENCES:
+
+******************************************************************************/
+ v_str LONG DEFAULT p_string || p_sep;
+ v_str2 LONG DEFAULT p_string2 || p_sep;
+ v_n NUMBER;
+ v_n2 NUMBER;
+ v_data tabletype := tabletype ();
+BEGIN
+LOOP
+ v_n := TO_NUMBER (INSTR (v_str, p_sep));
+ v_n2 := TO_NUMBER (INSTR (v_str2, p_sep));
+ EXIT WHEN (NVL (v_n, 0) = 0);
+v_data.EXTEND;
+ v_data (v_data.COUNT) :=
+ rectype (v_data.COUNT,
+ LTRIM (RTRIM (SUBSTR (v_str, 1, v_n - 1))),
+ LTRIM (RTRIM (SUBSTR (v_str2, 1, v_n2 - 1)))
+);
+ v_str := SUBSTR (v_str, v_n + 1);
+ v_str2 := SUBSTR (v_str2, v_n2 + 1);
+ END LOOP;
+
+ RETURN v_data;
+END;
+
+方式二：
+
+select regexp_substr('A,B,C,D,E,F,G', '[^,]+', 1, level)
+ from dual
+connect by level <= length(regexp_replace('A,B,C,D,E,F,G', '[^,]*')) + 1;

@@ -1,0 +1,63 @@
+----配列使い方------------------------------------------------
+----定義
+TYPE TBL_ITEM IS TABLE OF TM_ITEM%ROWTYPE INDEX BY BINARY_INTEGER;
+----宣言
+ITEM_LIST TBL_ITEM;
+----セット
+SELECT  * BULK COLLECT INTO ITEM_LIST
+FROM TM_ITEM T
+WHERE T.OWN_CD = piOwnCd
+AND T.DEL_FLG = '0'
+AND ROWNUM <= dataCount;
+----ゲット
+FOR idx IN 1 .. ITEM_LIST.count
+LOOP
+ITEM_LIST(idx).ITM_ID
+END LOOP;
+-----------------------------------------------------
+--カーソル使い方①
+CURSOR  CSR_TW_A_IF_ILOC IS
+SELECT  *
+FROM TW_A_IF_ILOC
+ORDER BY LINE_NO;
+   
+REC_TW_A_IF_ILOC    TW_A_IF_ILOC%ROWTYPE;
+   
+FOR REC_TW_A_IF_ILOC in CSR_TW_A_IF_ILOC
+LOOP
+
+END LOOP
+-----------------------------------------------------
+--カーソル使い方②
+FOR REC in
+(
+SELECT  *
+FROM TW_A_IF_ILOC
+ORDER BY LINE_NO
+)
+LOOP
+
+END LOOP
+-------------------------------------------------------
+--レコード使い方
+TYPE  REC_TYPE IS RECORD
+(ENAME  VARCHAR2(10),
+JOB    VARCHAR2(9)  );
+
+REC   REC_TYPE;
+BEGIN
+SELECT ENAME, JOB INTO REC FROM EMP WHERE EMPNO=7934;
+-------------------------------------------------------
+WITH TEST AS
+(
+SELECT 'A' AS F1 ,NULL AS F2 FROM DUAL
+UNION
+SELECT 'B' AS F1 ,1  AS F2 FROM DUAL
+UNION 
+SELECT 'C' AS F1 ,2 AS F2 FROM DUAL
+)
+SELECT * FROM TEST 
+ORDER BY
+TEST.F2 ASC 
+---nulls first
+---nulls last

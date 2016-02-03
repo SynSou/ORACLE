@@ -1,0 +1,24 @@
+with 
+a as
+(
+select TM_ITEM.OWN_CD
+ from TM_ITEM WHERE TM_ITEM.ITM_CD <'2670000745'
+),
+b as 
+(
+select TM_ITEM.OWN_CD
+from TM_ITEM WHERE TM_ITEM.ITM_CD <'2670000745'
+)
+SELECT * FROM a inner join b on a.OWN_CD = b.OWN_CD
+/
+with temp as(  
+  select 'China' nation ,'Guangzhou' city from dual union all  
+  select 'China' nation ,'Shanghai' city from dual union all  
+  select 'China' nation ,'Beijing' city from dual union all  
+  select 'USA' nation ,'New York' city from dual union all  
+  select 'USA' nation ,'Bostom' city from dual union all  
+  select 'Japan' nation ,'Tokyo' city from dual   
+)  
+select nation,listagg(city,',') within GROUP (order by city)  
+from temp  
+group by nation  
